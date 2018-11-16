@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<title>Dictionary Maintenance</title>
+<body>
+    <style type="text/css">
+        body
+        {
+            padding: 20px;
+            font-size: 14px;
+        }
+        #progressbar .title
+        {
+            text-align: center;
+            font-size: 12px;
+            line-height: 24px;
+        }
+
+        #progressbar
+        {
+            width: 278px;
+        }
+        #progressbar .border
+        {
+            border: 1px solid #777;
+            width: 276px;
+            height: 13px;
+            padding: 1px;
+        }
+        #progressbar .bar
+        {
+            background-color: #73c944;
+            width: 0%;
+            height: 13px;
+            overflow: hidden;
+        }
+        #progressbar .desc
+        {
+            text-align: center;
+            font-size: 12px;
+            line-height: 24px;
+        }
+
+    </style>
+
+<p> {{language_file}}
+
+</p>
+
+<div id="progressbar">
+    <div class="title" id="id_title" >waiting for importing finished</div>
+    <div class="border" id="id_border">
+    <div class="bar" style="width: 0px; background-color: Green" id="id_bar">
+    </div>
+    <div class="desc" id="id_desc">
+       Start importing </div>
+
+    <input type="submit" value="Back" id="id_button" onclick ="history.back()" >
+</div>
+
+</body>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+
+     var loading = function(){
+         var ct = $("#progressbar");
+         var desc=$("#id_desc");
+         var bar = $("#id_bar");
+         var title = $("#id_title");
+
+         var idx = 0;
+         var time = 500;
+         var proc_id = "{{ proc_id }}";
+
+         //console.log("proc_id is " + proc_id);
+
+         bar.setValue = function(n){$("#id_bar").css({"width":n + "%"}); };
+         $("#id_button").attr('disabled','disabled');
+
+         void function(){
+             $.ajax({
+                 url: '/ajax/get_importingRate/',
+                 data: {
+                   'proc_id': proc_id
+                 },
+                 dataType: 'json',
+                 success: function (data) {
+                     var rate = data.currentRate;
+                     var status = data.currentStatus;
+                     var comment = data.statusComment;
+                     console.log("rate is " + rate + " status is " + status);
+                     if (status == 2)
+                     {
+                        $("#id_title").html("Importing finished");
+                        $("#id_desc").html("100% imported");
+                        bar.setValue(100);
+                        clearTimeout(timer);
+                        $("#id_button").removeAttr('disabled');
+                        return;
+                     }
+                     else if (status == -1)
+                     {
+                        $("#id_desc").html(comment);
+                        clearTimeout(timer);
+                        $("#id_button").removeAttr('disabled');
+                     }
+                     else
+                     {
+                        $("#id_desc").html(rate + "% imported");
+                         bar.setValue(rate);
+                     }
+                 }
+              });
+             timer = setTimeout(arguments.callee, time += 10);
+         }();
+
+         return {
+                 remove: function(){
+                     clearTimeout(timer);
+                     $("#id_title").html("Importing finished");
+                     $("#id_desc").html("100% imported");
+                     bar.setValue(100);
+                     console.log("remove called");
+                     }
+                 };
+         }();
+
+     // setTimeout(loading.remove, 10000);
+
+   	</script>
+
+</html>
