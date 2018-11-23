@@ -54,6 +54,9 @@ from .tools.AzureAuth import AzureAuthClient
 from .tools.insertAllwordsData import insertAllwordsData
 from .tools.user_management import userLogin
 from .tools.user_management import createNewUser
+from .tools.user_management import saveUserReviseAction
+from .tools.user_management import getUserReviseAction
+
 
 from .tools.getPodcastFromiTunes import getfreewordSearchPodcastData
 from .tools.updateDataFromCambridge import getDataFromCambridgeDictionary
@@ -465,6 +468,26 @@ def update_fromCambridge(request):
 
     return JsonResponse(data)
 
+def saveUserAction(request):
+    username = request.POST.get("user_name")
+    reviseID = request.POST.get("revise_id")
+    reviseResult = request.POST.get("revise_result")
+    entryID = request.POST.get("entry_id")
+    vbID = request.POST.get("vb_id")
+
+    data = {
+        'save_result': saveUserReviseAction(username, reviseID, reviseResult, entryID, vbID)
+    }
+    return JsonResponse(data)
+
+def getUserAction(request):
+    username = request.POST.get("user_name")
+    resultData = getUserReviseAction(username)
+
+    data = {
+        'user_data': resultData
+    }
+    return JsonResponse(data)
 
 
 def index(request):

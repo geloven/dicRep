@@ -1411,9 +1411,42 @@ function reviseVBWord(pageName)
     let stringID = g_allwords_sort_list[randomIndex]["id_entry"];
     let languageCode = g_allwords_sort_list[randomIndex]["lang_code"];
 
+    // create revise sheet
     let ulNode = document.createElement("UL");
     ulNode.setAttribute("id", "id_ul_revise");
 
+    // create common info: keystringID|index|idRevise in hidden mode
+
+    let keyNode = document.createElement("input");
+    keyNode.setAttribute("id", "id_key_string");
+    keyNode.setAttribute("hidden", true);
+    keyNode.setAttribute("value", keyString);
+
+    ulNode.appendChild(keyNode);
+
+    let entryIDNode = document.createElement("input");
+    entryIDNode.setAttribute("id", "id_entry_id");
+    entryIDNode.setAttribute("hidden", true);
+    entryIDNode.setAttribute("value", stringID);
+
+    ulNode.appendChild(entryIDNode);
+
+    let indexNode = document.createElement("input");
+    indexNode.setAttribute("id", "id_index_string");
+    indexNode.setAttribute("hidden", true);
+    indexNode.setAttribute("value", randomIndex);
+
+    ulNode.appendChild(indexNode);
+
+    let id_revise = generateUUID();
+    let idReviseNode = document.createElement("input");
+    idReviseNode.setAttribute("id", "id_revise_id");
+    idReviseNode.setAttribute("hidden", true);
+    idReviseNode.setAttribute("value", id_revise);
+    ulNode.appendChild(idReviseNode);
+
+    // begin to create revise sheet visual element
+    // create label node
     let questionNode = document.createElement("label");
     questionNode.setAttribute("ID", "id_question_string");
     questionNode.setAttribute("class", "revise_question");
@@ -1421,6 +1454,7 @@ function reviseVBWord(pageName)
     questionNode.innerHTML = word;
     ulNode.appendChild(questionNode);
 
+    // create play audio node
     let audioNode = document.createElement("audio");
     audioNode.setAttribute("id", "id_audio");
     play_text_audio(stringID, keyString, languageCode);
@@ -1445,24 +1479,11 @@ function reviseVBWord(pageName)
     }
     ulNode.appendChild(playImageNode);
 
+
     let hrNode = document.createElement("hr");
     ulNode.appendChild(hrNode);
 
-    let keyNode = document.createElement("input");
-    keyNode.setAttribute("id", "id_key_string");
-    keyNode.setAttribute("hidden", true);
-    keyNode.setAttribute("value", keyString);
-
-    ulNode.appendChild(keyNode);
-
-    let indexNode = document.createElement("input");
-    indexNode.setAttribute("id", "id_index_string");
-    indexNode.setAttribute("hidden", true);
-    indexNode.setAttribute("value", randomIndex);
-
-    ulNode.appendChild(indexNode);
-
-
+    // create answer inputbox
     let answerNode = document.createElement("input");
     answerNode.setAttribute("id","id_input_answer");
     answerNode.setAttribute("type", "search");
@@ -1473,15 +1494,25 @@ function reviseVBWord(pageName)
         let keyNode = document.getElementById("id_key_string");
         let userAnwser = event.srcElement.value;
 
+        let revise_result = 0;
         if (keyNode.value != userAnwser) {
             $("#id_tip").html("<span style='color:red' class='glyphicon glyphicon-thumbs-down'> wrong answer</span>, currect answer is: " + keyNode.value);
+            revise_result = 1;
         }else {
             $("#id_tip").html("<span style='color:green' class='glyphicon glyphicon-thumbs-up'> good answer</span>");
+            revise_result = 0;
         }
+
+        // after answer checking, save this user action
+        let id_entry = document.getElementById("id_entry_id").value;
+        let id_revise = document.getElementById("id_revise_id").value;
+
+        saveUserReviseAction(id_revise, revise_result, id_entry, g_current_vb_id, g_user_id);
     }
 
     ulNode.appendChild(answerNode);
 
+    // create prev|next|savemistake ope node
     ulNode.appendChild(document.createElement("br"));
 
     var prevNode=document.createElement("A");
@@ -1491,6 +1522,7 @@ function reviseVBWord(pageName)
 
     prevNode.setAttribute("href", "#id_vb_one");
     prevNode.onclick=function(){
+        // update common info of prev entry
         let indexNode = document.getElementById("id_index_string");
 
         randomIndex = parseInt(indexNode.getAttribute("value"));
@@ -1517,6 +1549,10 @@ function reviseVBWord(pageName)
         play_text_audio(stringID, keyString, languageCode);
 
         indexNode.setAttribute("value", randomIndex);
+
+        let entryIDNode = document.getElementById("id_entry_id");
+        entryIDNode.setAttribute("value", stringID);
+
         $("#id_tip").html("<span style='color:green'> </span>");
 
     };
@@ -1556,6 +1592,10 @@ function reviseVBWord(pageName)
         play_text_audio(stringID, keyString, languageCode);
 
         indexNode.setAttribute("value", randomIndex);
+
+        let entryIDNode = document.getElementById("id_entry_id");
+        entryIDNode.setAttribute("value", stringID);
+
         $("#id_tip").html("<span style='color:green'> </span>");
 
     };
@@ -1635,6 +1675,7 @@ function reviseVBWord(pageName)
 
         ulNode.appendChild(removeFromMistakeBookNode);
     }
+
     var tipNode = document.createElement("p");
     tipNode.setAttribute("id", "id_tip");
     tipNode.setAttribute("class", "page_message");

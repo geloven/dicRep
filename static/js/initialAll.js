@@ -301,6 +301,25 @@ function initialVBMenuItem(list) {
         setVBMistakeInfo(list[x][0], LiNode, vbName);
      }
 
+     let LiReviseHistoryNode=document.createElement("LI");
+     LiReviseHistoryNode.setAttribute("id", "id_li_revise_history");
+     LiReviseHistoryNode.setAttribute("title", "my revise");
+     LiReviseHistoryNode.setAttribute("class", "leftmenu_li");
+     document.getElementById("id_vb_item").appendChild(LiReviseHistoryNode);
+
+     let aReviseHistory_Node=document.createElement("a");//获得对象
+     aReviseHistory_Node.setAttribute("id", "id_revise_history");
+     aReviseHistory_Node.innerHTML = "<span class='glyphicon glyphicon-ice-lolly-tasted'></span> " + "my revise history";
+     aReviseHistory_Node.setAttribute("href", "#id_vb_one");
+     aReviseHistory_Node.setAttribute("class", "leftmenu_item");
+     aReviseHistory_Node.onclick = function(){
+        clearCurrentPageContent();
+        var currentTitle = "your revise history:  "
+        document.getElementById("id_vb_list_title").innerHTML = currentTitle;
+        getUserReviseActionHistory("id_vb_list_title", g_user_id);
+     }
+     document.getElementById("id_li_revise_history").appendChild(aReviseHistory_Node);
+
      g_current_vb_id = list[0][0];
 
 }

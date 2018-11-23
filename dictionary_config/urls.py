@@ -57,4 +57,6 @@ urlpatterns = [
     path('ajax/search_podcast/', dictionary_views.search_podcast),
     path('ajax/update_cambridge/', dictionary_views.update_fromCambridge),
 
+    path('ajax/save_userAction/', dictionary_views.saveUserAction),
+    path('ajax/get_userAction/', dictionary_views.getUserAction),
 ]

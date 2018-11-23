@@ -135,3 +135,68 @@ function createUser () {
     });
 
 }
+
+function saveUserReviseAction(reviseID, reviseResult, entryID, vbID, userName)
+{
+    $.ajax({
+        url: '/ajax/save_userAction/',
+        type: 'POST',
+        data: {
+            'user_name': userName,
+            'revise_id': reviseID,
+            'revise_result': reviseResult,
+            'entry_id': entryID,
+            'vb_id':vbID,
+        },
+        success: function (data, textStatus) {
+            console.log(data);
+            //if (data.save_result == 1) {
+            //    $("#id_tip").html("<span style='color:red'>New user action was recorded. </span>");
+
+            //} else if (data.save_result == -1) {
+            //    $("#id_tip").html("<span style='color:red'>User action can't be recorded </span>");
+            //}
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+
+}
+
+function getUserReviseActionHistory(nodeID, userName)
+{
+    $.ajax({
+        url: '/ajax/get_userAction/',
+        type: 'POST',
+        data: {
+            'user_name': userName,
+        },
+        success: function (data, textStatus) {
+            console.log(data);
+
+            var tableNode;
+            tableNode=document.createElement("table");//获得对象
+
+            for (let i = 0 ; i<= data.user_data.length; i ++) {
+                var trNode=tableNode.insertRow();
+                //for (let j = 0; j <= data.user_data[i][0].length; j++){
+                    var tdNode=trNode.insertCell(); // string ID
+                    trNode.innerHTML = data.user_data[i];
+            }
+
+            document.getElementById(nodeID).appendChild(tableNode);
+            //$("#id_tip").html("<span style='color:green'> get record " + data + " </span>");
+            //if (data.save_result == 1) {
+            //    $("#id_tip").html("<span style='color:red'>New user action was recorded. </span>");
+
+            //} else if (data.save_result == -1) {
+            //    $("#id_tip").html("<span style='color:red'>User action can't be recorded </span>");
+            //}
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+

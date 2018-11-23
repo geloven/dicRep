@@ -23,6 +23,12 @@ class MysqlDb:
                                               port=3306,
                                               charset='utf8')
 
+                #self.m_dbConnect = pymysql.connect(host='192.168.48.150',
+                #                                   user='Spui',
+                #                                   passwd='Spui2017',
+                #                                   db='dictionary_db',
+                #                                   port=3306,
+                #                                   charset='utf8')
         except Exception as e:
             raise ('connect error')
             logging.exception(e)
