@@ -5,7 +5,9 @@
  */
 
 
-function saveVocabularyBook(vbName, vbDesc){
+function saveVocabularyBook(){
+    let vbName = $("#id_vb_name").val();
+    let vbDesc = $("#id_vb_desc").val();
 
     if(!vbName)
     {
