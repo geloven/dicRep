@@ -24,7 +24,7 @@ btn_search_allwords.onclick=function(){
     load_languageData("id_result",PAGE_NAME_ONE_LANGUAGE);
 }
 
-btn_save_vb.onclick = function() {
+btn_save_vb.onclick=function() {
 
     let vbDesc = $("#id_vb_desc_one").val();
     saveVocabularyBook(getVocaublarBookName(g_current_vb_id), vbDesc);
@@ -57,7 +57,6 @@ function button_import_history_click(addNodeName, pageName){
          }
      }
   });
-
 }
 
 
@@ -159,6 +158,9 @@ function translate_page(tableID, type){
         var txtInter = tableNode.rows[x+1].cells[2].innerHTML;
         var txtLanguageID = tableNode.rows[x+1].cells[3].innerText;
         if (txtInter == '') {
+            if (txtLanguageID.trim() == "enukus") {
+                txtLanguageID = "en";
+            }
             $.ajax({
                 url: '/ajax/get_translateWord/',
                 data: {

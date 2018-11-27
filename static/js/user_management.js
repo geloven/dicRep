@@ -178,11 +178,23 @@ function getUserReviseActionHistory(nodeID, userName)
             var tableNode;
             tableNode=document.createElement("table");//获得对象
 
-            for (let i = 0 ; i<= data.user_data.length; i ++) {
+            for (let i = 0 ; i< data.user_data.length; i ++) {
                 var trNode=tableNode.insertRow();
-                //for (let j = 0; j <= data.user_data[i][0].length; j++){
-                    var tdNode=trNode.insertCell(); // string ID
-                    trNode.innerHTML = data.user_data[i];
+                var tdNode=trNode.insertCell(); // start time
+                tdNode.innerHTML = data.user_data[i]["start_time"];
+
+                var tdNode=trNode.insertCell(); // end time
+                tdNode.innerHTML = data.user_data[i]["end_time"];
+
+                var tdNode=trNode.insertCell(); // vb name
+                tdNode.innerHTML = data.user_data[i]["vb_name"];
+
+                var tdNode=trNode.insertCell(); // result
+                var resultInfoStr = "correct/total: ";
+                resultInfoStr = resultInfoStr.concat(String(data.user_data[i]["correct_count"]));
+                resultInfoStr = resultInfoStr.concat("/");
+                resultInfoStr = resultInfoStr.concat(String(data.user_data[i]["total_count"]));
+                tdNode.innerHTML = resultInfoStr;
             }
 
             document.getElementById(nodeID).appendChild(tableNode);

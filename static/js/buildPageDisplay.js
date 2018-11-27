@@ -986,7 +986,12 @@ function show_modal_form(obj) {
 
             $("#id_interpretation").val(curRow.cells[2].innerHTML);
 
-            $("#id_languageID_edit").val(curRow.cells[3].innerText);
+            if (curRow.cells[3].innerText.trim() == "enukus") {
+                $("#id_languageID_edit").val("en");
+
+            }else{
+                $("#id_languageID_edit").val(curRow.cells[3].innerText);
+            }
 
             g_current_language = curRow.cells[3].innerText;
 

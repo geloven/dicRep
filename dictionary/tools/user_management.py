@@ -75,22 +75,29 @@ def getUserReviseAction(username):
         mydb = MysqlDb()
         mydb.initDB()
 
-        select_sql = "SELECT id_revise, count(*) FROM user_action WHERE user_name = '" + username+ "' group by id_revise;"
-        print(select_sql)
+        select_sql0 = "SELECT id_revise, id_vb, count(*) FROM user_action WHERE user_name = '" + username + "' group by id_revise, id_vb;"
+        resultData0 = mydb.select_data(select_sql0)
 
-        resultData = mydb.select_data(select_sql)
-
-        resultCount = resultData['num']
-        resultList = resultData['result']
+        resultCount0 = resultData0['num']
+        resultList0 = resultData0['result']
 
         resultAllData = []
 
-        for i in range(0, resultCount) :
-            id_revise = resultList[i][0]
-            select_sql0 = "SELECT * FROM user_action WHERE id_revise = '" + id_revise + "';"
-            resultData0 = mydb.select_data(select_sql0)
+        for i in range(0, resultCount0) :
+            id_revise = resultList0[i][0]
+            total_item = resultList0[i][2]
+            select_sql1 = "SELECT count(*) FROM user_action WHERE id_revise = '" + id_revise + "' and revise_result = 0;"
+            resultData1 = mydb.select_data(select_sql1)
 
-            resultAllData.append(resultData0['result'])
+            select_sql2 = "SELECT min(update_date), max(update_date) FROM user_action WHERE id_revise = '" + id_revise + "';"
+            resultData2 = mydb.select_data(select_sql2)
+
+            id_vb = resultList0[i][1]
+            select_sql3 = "SELECT vb_name FROM vb_list WHERE id_vb = " + str(id_vb) + ";"
+            resultData3 = mydb.select_data(select_sql3)
+
+            oneItemData = {"revise_id": id_revise, "vb_name":resultData3['result'][0][0], "total_count":total_item, "correct_count":resultData1['num'], "start_time":resultData2['result'][0][0], "end_time":resultData2['result'][0][1]}
+            resultAllData.append(oneItemData)
 
         mydb.close_connect()
 
