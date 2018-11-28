@@ -316,7 +316,9 @@ function initialVBMenuItem(list) {
         clearCurrentPageContent();
         var currentTitle = "your revise history:  "
         document.getElementById("id_vb_list_title").innerHTML = currentTitle;
-        getUserReviseActionHistory("id_vb_list_title", g_user_id);
+
+
+        getUserReviseActionHistory("id_one_vb_result", g_user_id);
      }
      document.getElementById("id_li_revise_history").appendChild(aReviseHistory_Node);
 

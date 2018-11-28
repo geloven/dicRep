@@ -424,7 +424,29 @@ p .pageinfo{
     }
   }
 }
-/* end .roundedTwo */
+
+.revise_table {
+    color: #333; /* Lighten up font color */
+    font-family: Helvetica, Arial, sans-serif; /* Nicer font */
+    font-size: 14px;
+    width: 640px;
+    border-collapse:
+    collapse; border-spacing: 0;
+}
+
+/*
+td, th { border: 1px solid #CCC; height: 30px; }
+
+th {
+    background: #F3F3F3;
+    font-weight: bold;
+}
+
+td {
+    background: #FAFAFA;
+    text-align: center;
+}
+*/
 
 /*input[type="submit"]
    {

@@ -1696,10 +1696,10 @@ function sort_allwords(sortType, pageName) {
             if (g_sort_id_flag == SORT_ID_FLAG_ASCEND) {
                 g_sort_id_flag = SORT_ID_FLAG_DESCEND;
                 g_allwords_sort_list.sort(function (a, b) {
-                    if (a.id_entry.toLowerCase() < b.id_entry.toLowerCase()) {
+                    if (a.id_entry < b.id_entry) {
                         return 1;
                     }
-                    if (a.id_entry.toLowerCase() > b.id_entry.toLowerCase()) {
+                    if (a.id_entry > b.id_entry) {
                         return -1;
                     }
                     return 0;
@@ -1707,10 +1707,10 @@ function sort_allwords(sortType, pageName) {
             }else{
                 g_sort_id_flag = SORT_ID_FLAG_ASCEND;
                 g_allwords_sort_list.sort(function (a, b) {
-                    if (a.id_entry.toLowerCase() > b.id_entry.toLowerCase()) {
+                    if (a.id_entry > b.id_entry) {
                         return 1;
                     }
-                    if (a.id_entry.toLowerCase() < b.id_entry.toLowerCase()) {
+                    if (a.id_entry < b.id_entry) {
                         return -1;
                     }
                     return 0;

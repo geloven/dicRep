@@ -96,7 +96,7 @@ def getUserReviseAction(username):
             select_sql3 = "SELECT vb_name FROM vb_list WHERE id_vb = " + str(id_vb) + ";"
             resultData3 = mydb.select_data(select_sql3)
 
-            oneItemData = {"revise_id": id_revise, "vb_name":resultData3['result'][0][0], "total_count":total_item, "correct_count":resultData1['num'], "start_time":resultData2['result'][0][0], "end_time":resultData2['result'][0][1]}
+            oneItemData = {"revise_id": id_revise, "vb_name":resultData3['result'][0][0], "total_count":total_item, "mistake_count":resultData1['result'][0][0], "start_time":resultData2['result'][0][0], "end_time":resultData2['result'][0][1]}
             resultAllData.append(oneItemData)
 
         mydb.close_connect()
