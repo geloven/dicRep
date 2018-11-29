@@ -179,6 +179,17 @@ function getUserReviseActionHistory(nodeID, userName)
             tableNode=document.createElement("table");//获得对象
             tableNode.setAttribute("class", ".revise_table");
 
+
+            data.user_data.sort(function (a, b) {
+              if (a.start_time.toLowerCase() < b.start_time.toLowerCase()) {
+                return 1;
+              }
+              if (a.start_time.toLowerCase() > b.start_time.toLowerCase()) {
+                return -1;
+              }
+              return 0;
+            });
+
             for (let i = 0 ; i< data.user_data.length; i ++) {
                 var trNode=tableNode.insertRow();
                 var tdNode=trNode.insertCell(); // start time
