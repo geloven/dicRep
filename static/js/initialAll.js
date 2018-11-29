@@ -397,3 +397,34 @@ function setVBMistakeInfo(vbID, LiParentNode, vbName)
 function setCurrentLanguage(){
     g_current_language = "all";
 }
+
+
+function load_languageData(addNodeName, pageName){
+
+ $.ajax({
+    url: '/ajax/get_languageData/',
+    data: {
+      'current_language': g_current_language
+    },
+    dataType: 'json',
+    beforeSend:function()
+    {
+        show_message(addNodeName, "<span style='color:blue'>Start loading language data...</span>");
+        return true;
+    },
+
+    success: function (data) {
+         //g_allwords_freeSearch_list = data.result_list;
+         clearCurrentPageContent(addNodeName);
+         setDataInOrderList(data.result_list);
+         if (data.result_list.length > 0) {
+             createAllwordsTable(addNodeName, pageName);
+             $("#id_tip").html("<span style='color:blue'>Language data loaded.</span>");
+         }
+         else{
+             $("#id_tip").html("<span style='color:blue'>No data found.</span>");
+         }
+     }
+  });
+}
+

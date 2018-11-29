@@ -9,8 +9,6 @@ let btn_search_all = document.getElementById('id_search_all');
 let btn_search_one_history = document.getElementById('id_search_history');
 let btn_search_allwords = document.getElementById('id_search_allwords');
 
-let btn_save_vb = document.getElementById("btn_save_vb");
-let btn_create_vb = document.getElementById("btn_create_vb");
 
 btn_search_all.onclick=function(){
     button_import_history_click("id_result_all",PAGE_NAME_ALL_LANGUAGES);
@@ -23,72 +21,6 @@ btn_search_one_history.onclick=function(){
 btn_search_allwords.onclick=function(){
     load_languageData("id_result",PAGE_NAME_ONE_LANGUAGE);
 }
-
-btn_save_vb.onclick=function() {
-
-    let vbDesc = $("#id_vb_desc_one").val();
-    saveVocabularyBook(getVocaublarBookName(g_current_vb_id), vbDesc);
-}
-
-btn_create_vb.onclick = function() {
-    let vbName = $("#id_vb_name").val();
-    let vbDesc = $("#id_vb_desc").val();
-
-    saveVocabularyBook(vbName, vbDesc);
-}
-
-
-function button_import_history_click(addNodeName, pageName){
-
- $.ajax({
-     url: '/ajax/get_importHistory/',
-     data: {
-       'current_language': g_current_language
-     },
-     dataType: 'json',
-     success: function (data) {
-         g_import_history_list = data.result_list;
-         clearCurrentPageContent(addNodeName);
-         if (g_import_history_list.length > 0){
-             createImportInfoTable(addNodeName, pageName);
-         }
-         else{
-            show_message(addNodeName, 'No data found.');
-         }
-     }
-  });
-}
-
-
-function load_languageData(addNodeName, pageName){
-
- $.ajax({
-    url: '/ajax/get_languageData/',
-    data: {
-      'current_language': g_current_language
-    },
-    dataType: 'json',
-    beforeSend:function()
-    {
-        show_message(addNodeName, "<span style='color:blue'>Start loading language data...</span>");
-        return true;
-    },
-
-    success: function (data) {
-         //g_allwords_freeSearch_list = data.result_list;
-         clearCurrentPageContent(addNodeName);
-         setDataInOrderList(data.result_list);
-         if (data.result_list.length > 0) {
-             createAllwordsTable(addNodeName, pageName);
-             $("#id_tip").html("<span style='color:blue'>Language data loaded.</span>");
-         }
-         else{
-             $("#id_tip").html("<span style='color:blue'>No data found.</span>");
-         }
-     }
-  });
-}
-
 
 function freeSearch()
 {

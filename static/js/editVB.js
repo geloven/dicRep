@@ -4,6 +4,21 @@
  * Author:      swallow
  */
 
+let btn_save_vb = document.getElementById("btn_save_vb");
+let btn_create_vb = document.getElementById("btn_create_vb");
+btn_save_vb.onclick=function() {
+
+    let vbDesc = $("#id_vb_desc_one").val();
+    saveVocabularyBook(getVocaublarBookName(g_current_vb_id), vbDesc);
+}
+
+btn_create_vb.onclick = function() {
+    let vbName = $("#id_vb_name").val();
+    let vbDesc = $("#id_vb_desc").val();
+
+    saveVocabularyBook(vbName, vbDesc);
+}
+
 
 function saveVocabularyBook(){
     let vbName = $("#id_vb_name").val();

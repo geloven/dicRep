@@ -86,7 +86,7 @@ def getUserReviseAction(username):
         for i in range(0, resultCount0) :
             id_revise = resultList0[i][0]
             total_item = resultList0[i][2]
-            select_sql1 = "SELECT count(*) FROM user_action WHERE id_revise = '" + id_revise + "' and revise_result = 0;"
+            select_sql1 = "SELECT count(*) FROM user_action WHERE id_revise = '" + id_revise + "' and revise_result = 1;"
             resultData1 = mydb.select_data(select_sql1)
 
             select_sql2 = "SELECT min(update_date), max(update_date) FROM user_action WHERE id_revise = '" + id_revise + "';"
