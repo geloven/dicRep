@@ -182,6 +182,15 @@ function saveVBData() {
                 $("#id_tip").html("<span style='color:blue'>Vocabular book no data  updated</span>");
             }
             else {
+                $.ajax({
+                    url: '/ajax/get_vbData/',
+                    data: {
+                        "vb_id": g_current_vb_id,
+                    },
+                    success:function(data){
+                        g_vb_entry_id_list = data.result_list;
+                    },
+                    });
 
                 let html_str = "<span style='color:blue'> " ;
                 html_str = html_str.concat(readVBOpeInTempArray());
